@@ -27,19 +27,15 @@
              :health 8
              :damage 2
              :attack-time 0)))
-  ([start-layer down up stand-right walk-right]
-    (let [down-flip (texture down :flip true false)
-          up-flip (texture up :flip true false)
-          stand-flip (texture stand-right :flip true false)
-          walk-flip (texture walk-right :flip true false)]
+  ([start-layer down up right left]
       (assoc (create start-layer down)
-             :down (animation u/duration [down down-flip])
-             :up (animation u/duration [up up-flip])
-             :right (animation u/duration [stand-right walk-right])
-             :left (animation u/duration [stand-flip walk-flip])
+             :down (animation u/duration [down ])
+             :up (animation u/duration [left])
+             :right (animation u/duration [right ])
+             :left (animation u/duration [up ])
              :health 20
              :damage 4
-             :attack-time 0))))
+             :attack-time 0)))
 
 (defn create-hit
   []
@@ -63,12 +59,12 @@
 
 (defn create-person
   []
-  (let [sheet (texture "tiles.png")
-        tiles (texture! sheet :split 16 16)
-        player-images (for [col [0 1 2 3]]
-                        (texture (aget tiles 6 col)))
-        [down up stand-right walk-right] player-images]
-    (assoc (create "grass" down up stand-right walk-right)
+  (let [sheet (texture "hero.png")
+        tiles (texture! sheet :split 32 48)
+        player-images (for [row [0 1 2 3]]
+                        (texture (aget tiles row 0)))
+        [down up right left] player-images]
+    (assoc (create "grass" down up right left)
            :person? true)))
 
 (defn create-player
